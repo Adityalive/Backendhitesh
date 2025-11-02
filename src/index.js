@@ -1,19 +1,21 @@
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import express from "express";
+import { app } from "./app.js"; // ✅ Import the real app with routes
 import connectDB from "./db/index.js";
+import express from "express";
+import mongoose from "mongoose";
+dotenv.config();
 
-const app = express();
-dotenv.config(); // No path needed if file is named `.env` in root
 console.log("Loaded URI:", process.env.MONGODB_URI);
-connectDB().then(() => {
-  app.listen(process.env.PORT ||8000 , () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-  });
-}).catch((error) => {
-  console.error("Database connection failed:", error);
-});
 
+connectDB()
+  .then(() => {
+    app.listen(process.env.PORT || 3000, () => {
+      console.log(`🚀 Server is running on port ${process.env.PORT || 3000}`);
+    });
+  })
+  .catch((error) => {
+    console.error("❌ Database connection failed:", error);
+  });
 
 
 
